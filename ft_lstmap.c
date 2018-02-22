@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtan <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/21 22:11:05 by mtan              #+#    #+#             */
-/*   Updated: 2018/02/21 22:11:16 by mtan             ###   ########.fr       */
+/*   Created: 2018/02/22 11:45:00 by mtan              #+#    #+#             */
+/*   Updated: 2018/02/22 11:45:03 by mtan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
+	t_list	*map;
 	t_list	*head;
-	t_list	*curr;
 
-	if (!lst || !(curr = ft_lstnew(NULL, 0)))
+	if (!lst || !f)
 		return (NULL);
-	curr = f(lst);
-	head = curr;
-	while (lst->next)
+	map = f(lst);
+	head = map;
+	lst = lst->next;
+	while (lst)
 	{
+		map->next = f(lst);
+		map = map->next;
 		lst = lst->next;
-		curr->next = f(lst);
-		curr = curr->next;
 	}
 	return (head);
 }
